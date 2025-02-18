@@ -1,0 +1,14 @@
+<div class="area-login-background d-none d-md-block"></div>
+
+<div class="area-form">
+  <form action="">
+    <h1 class="titulo">CRUD USERS</h1>
+    <h2 class="subtitulo">Mais eficiência no controle de usuários</h2>
+
+    <input [(ngModel)]="userName" [ngModelOptions]="{standalone: true}" class="input-form" type="text" placeholder="digite o seu nome">
+
+    <app-button textButton="Acessar" size="100" (click)="login()"></app-button>
+  </form>
+
+  <p class="footer">© 2025 | desenvolvido por André Luis Avelino</p>
+</div>
