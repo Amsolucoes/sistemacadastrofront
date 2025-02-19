@@ -70,5 +70,5 @@ jobs:
         with:
           app-name: 'qualymaissaudesistemafront'
           slot-name: 'Production'
-          package: ./dist/qualymaissaudesistemafront
+          package: './dist/crud-usuarios/browser'
           
