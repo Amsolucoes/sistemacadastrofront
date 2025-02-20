@@ -20,11 +20,18 @@ c-gray {color: var(--gray-color)}
   stroke: var(--primary-color) !important;
 }
 
-.custom-snackbar {
-  background-color: #4caf50 !important; /* Cor verde */
+.success-snackbar simple-snack-bar {
+  background-color: #4caf50 !important; /* Verde para sucesso */
   color: white !important;
-  font-size: 16px !important;
   font-weight: bold;
-  text-align: center;
   border-radius: 4px;
 }
+
+.error-snackbar simple-snack-bar {
+  background-color: #f44336 !important; /* Vermelho para erro */
+  color: white !important;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+

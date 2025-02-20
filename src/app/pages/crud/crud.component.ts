@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalViewUserComponent } from './modal-view-user/modal-view-user.component';
 import { ModalFormUserComponent } from './modal-form-user/modal-form-user.component';
+import { ToastService } from '../../components/toast/toast.component';
 
 @Component({
   selector: 'app-crud',
@@ -22,7 +23,11 @@ listUsers: User[] = [];
 @ViewChild(MatPaginator) paginator: MatPaginator;
 @ViewChild(MatSort) sort: MatSort;
 
-constructor(private usersService: UsersService, public dialog: MatDialog) {
+constructor(
+  private usersService: UsersService,
+  public dialog: MatDialog,
+  private toast: ToastService,
+) {
   this.dataSource = new MatTableDataSource<any>(this.listUsers);
 }
 
@@ -55,7 +60,7 @@ getListUsers() {
 deleteUser(firebaseId: string) {
   this.usersService.deleteUser(firebaseId).then(
     (response: any) => {
-      window.alert('Cliente excluido com sucesso')
+      this.toast.show('Cliente excluido com sucesso')
     });
 }
 

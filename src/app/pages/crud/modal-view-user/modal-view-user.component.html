@@ -15,11 +15,11 @@
     </div>
     <div class="col-6">
       <h4 class="titulo-informacao">Valor</h4>
-      <p class="informacao">{{userData.cash}}</p>
+      <p class="informacao" >{{userData.cash | currency:'BRL':'symbol':'1.2-2'}}</p>
     </div>
     <div class="col-6">
       <h4 class="titulo-informacao">Telefone</h4>
-      <p class="informacao">{{userData.phone}}</p>
+      <p class="informacao">{{userData.phone | mask: '(00) 00000-0000'}}</p>
     </div>
     <div class="col-6">
       <h4 class="titulo-informacao">Plano de Saúde</h4>

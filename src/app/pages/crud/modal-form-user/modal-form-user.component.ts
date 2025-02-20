@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UsersService } from '../../../services/users.service';
 import { User } from '../../../interfaces/user';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastService } from '../../../components/toast/toast.component';
 
 @Component({
   selector: 'app-modal-form-user',
@@ -49,7 +49,7 @@ export class ModalFormUserComponent {
   public dialogRef: MatDialogRef<ModalFormUserComponent>,
   private formBuilder: FormBuilder,
   private usersService: UsersService,
-  private snackBar: MatSnackBar,
+  private toast: ToastService,
   @Inject(MAT_DIALOG_DATA) public data: any,
 ){}
 
@@ -93,33 +93,24 @@ export class ModalFormUserComponent {
       this.usersService.update(this.data.firebaseId, objUserForm).then(
         (response: any) => {
            // Substituindo o alert pelo Toast
-           this.showToast('Usuário editado com sucesso');
+           this.toast.show('Cliente editado com sucesso');
            this.closeModal();
         }).catch(err => {
           // Substituindo o alert pelo Toast
-          this.showToast('Houve um erro ao editar o usuário');
+          this.toast.show('Houve um erro ao editar o cliente', 'error');
           console.error(err);
         });
     } else {
       this.usersService.addUser(objUserForm).then(
         (response: any) => {
           // Substituindo o alert pelo Toast
-          this.showToast('Usuário Salvo com sucesso');
+          this.toast.show('Cliente Salvo com sucesso');
           this.closeModal();
         }).catch(err => {
-          this.showToast('Houve um erro ao salvar o usuário');
+          this.toast.show('Houve um erro ao salvar o cliente', 'error');
           console.error(err);
         });
     }
-  }
-
-  showToast(message: string, panelClass: string = 'custom-snackbar') {
-    this.snackBar.open(message, 'Fechar', {
-      duration: 3000,
-      verticalPosition: 'top',
-      horizontalPosition: 'right',
-      panelClass: [panelClass]
-    })
   }
 
   closeModal() {

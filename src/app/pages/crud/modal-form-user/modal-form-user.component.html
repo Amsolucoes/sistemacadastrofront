@@ -28,7 +28,8 @@
     <div class="col-12 col-md-6 mb-2">
       <mat-form-field class="example-full-width w-100">
         <mat-label>Valor</mat-label>
-        <input type="text" matInput formControlName="cash" placeholder="Digite o seu valor">
+        <input type="text" matInput formControlName="cash" placeholder="Digite o seu valor"
+        mask="separator.2" prefix="R$ " thousandSeparator="." decimalMarker=",">
         @if (formUser.controls['cash'].invalid) {
           <mat-error>Por favor digite um valor válido</mat-error>
         }
@@ -37,7 +38,8 @@
     <div class="col-12 col-md-6 mb-2">
       <mat-form-field class="example-full-width w-100">
         <mat-label>Telefone</mat-label>
-        <input type="tel" matInput formControlName="phone" placeholder="Digite o seu telefone">
+        <input type="tel" matInput formControlName="phone" placeholder="Digite o seu telefone"
+        mask="(00) 00000-0000">
         @if (formUser.controls['phone'].invalid) {
           <mat-error>Por favor digite um telefone válido</mat-error>
         }
