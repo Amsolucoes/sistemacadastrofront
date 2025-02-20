@@ -19,3 +19,12 @@ c-gray {color: var(--gray-color)}
 .mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle, .mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle {
   stroke: var(--primary-color) !important;
 }
+
+.custom-snackbar {
+  background-color: #4caf50 !important; /* Cor verde */
+  color: white !important;
+  font-size: 16px !important;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 4px;
+}

@@ -16,7 +16,7 @@ import { ModalFormUserComponent } from './modal-form-user/modal-form-user.compon
 export class CrudComponent {
 
 dataSource: any;
-displayedColumns: string[] = ['id', 'name', 'email','role', 'benefits', 'action'];
+displayedColumns: string[] = ['name', 'email','cash', 'benefits', 'action'];
 listUsers: User[] = [];
 
 @ViewChild(MatPaginator) paginator: MatPaginator;

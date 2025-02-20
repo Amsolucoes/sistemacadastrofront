@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './menu.component.scss'
 })
 export class MenuComponent {
-
+  nameSistema: string = 'QualiMais Saúde'
 }
