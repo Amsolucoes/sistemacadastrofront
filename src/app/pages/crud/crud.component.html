@@ -35,7 +35,7 @@
 
         <ng-container matColumnDef="cash">
           <th class="th-table" mat-header-cell *matHeaderCellDef mat-sort-header> Valor </th>
-          <td class="td-table" mat-cell *matCellDef="let user"> {{user.cash}} </td>
+          <td class="td-table" mat-cell *matCellDef="let user"> {{user.cash | currency:'BRL':'symbol':'1.2-2'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="benefits">
@@ -67,7 +67,7 @@
         </tr>
       </table>
 
-      <mat-paginator class="shadow-sm" [pageSizeOptions]="[3, 5 ,7]" aria-label="Selecione usuários por página"></mat-paginator>
+      <mat-paginator class="shadow-sm" [pageSizeOptions]="[5, 10 ,15]" aria-label="Selecione usuários por página"></mat-paginator>
     </div>
   </div>
 

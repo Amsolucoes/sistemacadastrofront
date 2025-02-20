@@ -8,6 +8,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './pages/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 // Angular Material
 import { MatIconModule } from '@angular/material/icon';
@@ -15,6 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 //FireBase
 import { environment } from '../environments/environment.development';
@@ -39,7 +41,8 @@ import { MatSelectModule } from '@angular/material/select';
     MenuComponent,
     CrudComponent,
     ModalViewUserComponent,
-    ModalFormUserComponent
+    ModalFormUserComponent,
+    ToastComponent
   ],
   imports: [
     BrowserModule,
@@ -58,9 +61,12 @@ import { MatSelectModule } from '@angular/material/select';
     MatDialogModule,
     MatSelectModule,
     MatSnackBarModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
     AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
   providers: [
+    provideNgxMask()
   ],
   bootstrap: [AppComponent]
 })
