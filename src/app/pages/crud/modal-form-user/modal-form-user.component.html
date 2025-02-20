@@ -1,10 +1,10 @@
 <div class="container-fluid p-3">
   <mat-icon class="float-end hover" (click)="closeModal()">close</mat-icon>
 
-  <h1 class="titulo" *ngIf="editUser">Editar Usuário</h1>
-  <h1 class="titulo" *ngIf="!editUser">Cadastrar Usuário</h1>
+  <h1 class="titulo" *ngIf="editUser">Editar Cliente</h1>
+  <h1 class="titulo" *ngIf="!editUser">Cadastrar Cliente</h1>
 
-  <h2 class="subtitulo">Preencha o formulário para salvar o usuário</h2>
+  <h2 class="subtitulo">Preencha o formulário para salvar o cliente</h2>
 
   <form action="" class="row" [formGroup]="formUser">
     <div class="col-12 col-md-6 mb-2">
@@ -27,19 +27,19 @@
     </div>
     <div class="col-12 col-md-6 mb-2">
       <mat-form-field class="example-full-width w-100">
-        <mat-label>Setor</mat-label>
-        <input type="text" matInput formControlName="sector" placeholder="Digite o seu setor">
-        @if (formUser.controls['sector'].invalid) {
-          <mat-error>Por favor digite um setor válido</mat-error>
+        <mat-label>Valor</mat-label>
+        <input type="text" matInput formControlName="cash" placeholder="Digite o seu valor">
+        @if (formUser.controls['cash'].invalid) {
+          <mat-error>Por favor digite um valor válido</mat-error>
         }
       </mat-form-field>
     </div>
     <div class="col-12 col-md-6 mb-2">
       <mat-form-field class="example-full-width w-100">
-        <mat-label>Cargo</mat-label>
-        <input type="text" matInput formControlName="role" placeholder="Digite o seu cargo">
-        @if (formUser.controls['role'].invalid) {
-          <mat-error>Por favor digite um cargo válido</mat-error>
+        <mat-label>Telefone</mat-label>
+        <input type="tel" matInput formControlName="phone" placeholder="Digite o seu telefone">
+        @if (formUser.controls['phone'].invalid) {
+          <mat-error>Por favor digite um telefone válido</mat-error>
         }
       </mat-form-field>
     </div>
@@ -47,7 +47,7 @@
      <div class="col-12 col-md-6 mb-2">
       <mat-form-field class="w-100">
         <mat-label><mat-icon>favorite</mat-icon>Plano de Saúde</mat-label>
-        <mat-select formControlName="helthPlan">
+        <mat-select formControlName="healthPlan">
           @for (plano of planosSaude; track plano) {
             <mat-option [value]="plano.descricao">{{plano.descricao}}</mat-option>
           }

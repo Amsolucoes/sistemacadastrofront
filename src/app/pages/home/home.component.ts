@@ -14,7 +14,7 @@ export class HomeComponent {
   dataSource: any;
 
 constructor(private usersService: UsersService) {
-  this.dataSource = new MatTableDataSource<any>(this.listUsers);
+  this.dataSource = this.listUsers;
 }
 
   ngOnInit() {
@@ -23,6 +23,15 @@ constructor(private usersService: UsersService) {
   }
 
   getListUsers() {
-    this.usersService.getAllUsers();
+    this.usersService.getAllUsers().subscribe({
+      next: (response: any) => {
+        this.listUsers = response;
+        console.log(response);
+        this.dataSource = this.listUsers;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
   }
 }
