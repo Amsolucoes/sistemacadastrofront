@@ -41,6 +41,25 @@ export class ModalFormUserComponent {
   },
  ]
 
+ estadoCliente = [
+  {
+    id: 1,
+    descricao: 'Novo'
+  },
+  {
+    id: 2,
+    descricao: 'Em Andamento'
+  },
+  {
+    id: 3,
+    descricao: 'Convertido'
+  },
+  {
+    id: 4,
+    descricao: 'Não Convertido'
+  }
+ ]
+
 
  formUser: FormGroup;
  editUser: boolean = false;
@@ -68,6 +87,7 @@ export class ModalFormUserComponent {
       phone: [null, [Validators.required, Validators.minLength(5)]],
       healthPlan: [''],
       dentalPlan: [''],
+      estado: [''],
     })
 
     if (this.data && this.data.name) {
@@ -82,7 +102,8 @@ export class ModalFormUserComponent {
       cash: this.data.cash,
       phone: this.data.phone,
       healthPlan: this.data.healthPlan,
-      dentalPlan: this.data.dentalPlan
+      dentalPlan: this.data.dentalPlan,
+      estado: this.data.estado,
     })
   }
 

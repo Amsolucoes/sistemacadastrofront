@@ -45,6 +45,16 @@
         }
       </mat-form-field>
     </div>
+    <div class="col-12 col-md-6 mb-2">
+      <mat-form-field class="w-100">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="estado">
+          @for (estados of estadoCliente; track estados) {
+            <mat-option [value]="estados.descricao">{{estados.descricao}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+     </div>
     <!-- Beneficios Select -->
      <div class="col-12 col-md-6 mb-2">
       <mat-form-field class="w-100">

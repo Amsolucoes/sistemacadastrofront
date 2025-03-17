@@ -3,6 +3,7 @@ export interface User {
   email: string,
   cash: string,
   phone: string,
+  estado: string,
   firebaseId?: string,
   healthPlan?: string,
   dentalPlan?: string,

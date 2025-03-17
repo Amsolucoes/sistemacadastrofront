@@ -17,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 //FireBase
 import { environment } from '../environments/environment.development';
@@ -63,6 +64,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatSnackBarModule,
     NgxMaskDirective,
     NgxMaskPipe,
+    DragDropModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
   providers: [
