@@ -17,7 +17,7 @@ import { ToastService } from '../../components/toast/toast.component';
 export class CrudComponent {
 
 dataSource: any;
-displayedColumns: string[] = ['name', 'email','cash', 'benefits', 'action'];
+displayedColumns: string[] = ['name', 'email','cash', 'benefits', 'estado', 'action'];
 listUsers: User[] = [];
 
 @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -76,23 +76,23 @@ applyFilter(event: Event) {
 //Logicas do Modal
 openModalViewUser(user: User) {
   this.dialog.open(ModalViewUserComponent, {
-    width: '700px',
-    height: '330px',
+    width: '800px',
+    height: '500px',
     data: user,
   })
 }
 
 openModalAddUser() {
   this.dialog.open(ModalFormUserComponent, {
-    width: '700px',
-    height: '410px',
+    width: '800px',
+    height: '500px',
   }).afterClosed().subscribe(() => this.getListUsers());
 }
 
 openModalEditUser(user: User) {
   this.dialog.open(ModalFormUserComponent, {
-    width: '700px',
-    height: '410px',
+    width: '800px',
+    height: '500px',
     data: user,
   }).afterClosed().subscribe(() => this.getListUsers());
 }

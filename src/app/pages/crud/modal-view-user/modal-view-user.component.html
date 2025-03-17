@@ -22,6 +22,10 @@
       <p class="informacao">{{userData.phone | mask: '(00) 00000-0000'}}</p>
     </div>
     <div class="col-6">
+      <h4 class="titulo-informacao">Status</h4>
+      <p class="informacao">{{userData.estado}}</p>
+    </div>
+    <div class="col-6">
       <h4 class="titulo-informacao">Plano de Saúde</h4>
       <p class="informacao" *ngIf="userData.healthPlan">{{userData.healthPlan}}</p>
       <p class="informacao" *ngIf="!userData.healthPlan">Não possui</p>
