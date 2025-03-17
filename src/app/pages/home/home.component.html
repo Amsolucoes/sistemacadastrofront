@@ -14,13 +14,30 @@
             [cdkDropListData]="categoria.lista"
             [cdkDropListConnectedTo]="getTitulosCategorias()"
             class="subcard-container"
+            [ngClass]="{'empty': categoria.lista.length === 0}"
             (cdkDropListDropped)="moverCliente($event, categoria)"
             [id]="'categoria-' + i"
           >
             <div *ngFor="let cliente of categoria.lista" cdkDrag class="subcard">
-              <p><strong>Nome:</strong> {{ cliente.name }}</p>
+              <div class="name-container">
+                <p><strong>Nome:</strong> {{ cliente.name }}</p>
+                <div class="icon-container">
+                  <mat-icon (click)="deletar(cliente)" class="delete-icon">delete</mat-icon>
+                </div>
+              </div>
               <p><strong>Email:</strong> {{ cliente.email }}</p>
               <p><strong>Telefone:</strong> {{ cliente.phone }}</p>
+              <span *ngIf="cliente.typePlan" class="tipo-plano">{{ cliente.typePlan }}</span>
+              <div class="comentario-container">
+                <textarea
+                [(ngModel)]="cliente.comentario"
+                (input)="atualizarComentario(cliente, $event)"
+                [placeholder]="cliente.comentario ? cliente.comentario : 'Digite seu comentário aqui...'"
+              ></textarea>
+              </div>
+              <div *ngIf="cliente.tempoRestante > 0">
+                <p>{{ cliente.tempoMensagem || 'Aguarde... tempo restante' }}</p>
+              </div>
             </div>
           </div>
         </div>
