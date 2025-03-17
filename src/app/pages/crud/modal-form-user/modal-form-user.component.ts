@@ -48,7 +48,7 @@ export class ModalFormUserComponent {
   },
   {
     id: 2,
-    descricao: 'Em Andamento'
+    descricao: 'Em Atendimento'
   },
   {
     id: 3,

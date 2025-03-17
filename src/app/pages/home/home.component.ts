@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { User } from '../../interfaces/user';
 import { UsersService } from '../../services/users.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   dataSource: any;
   categorias: any[] = [];
 
-  constructor(private usersService: UsersService) {
+  constructor(private usersService: UsersService, private cdRef: ChangeDetectorRef) {
     this.dataSource = this.listUsers;
   }
 
@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
       next: (response: any) => {
         this.categorias = [
           { titulo: 'Novo', lista: response.filter((user: User) => user.estado === 'Novo') },
-          { titulo: 'Em Atendimento', lista: response.filter((user: User) => user.estado === 'Em Andamento') },
+          { titulo: 'Em Atendimento', lista: response.filter((user: User) => user.estado === 'Em Atendimento') },
           { titulo: 'Convertido', lista: response.filter((user: User) => user.estado === 'Convertido') },
           { titulo: 'Não Convertido', lista: response.filter((user: User) => user.estado === 'Não Convertido') }
         ];
@@ -38,14 +38,34 @@ export class HomeComponent implements OnInit {
   }
 
   getTitulosCategorias(): string[] {
-    return this.categorias.map(c => c.titulo);
+    return this.categorias.map((categoria, index) => 'categoria-' + index);
   }
 
+  // Método para detectar e atualizar as listas de categorias corretamente
+  updateCategoriasLocais() {
+    this.categorias = [
+      { titulo: 'Novo', lista: this.categorias[0].lista },
+      { titulo: 'Em Atendimento', lista: this.categorias[1].lista },
+      { titulo: 'Convertido', lista: this.categorias[2].lista },
+      { titulo: 'Não Convertido', lista: this.categorias[3].lista },
+    ];
+    this.cdRef.detectChanges();
+  }
 
-  moverCliente(event: CdkDragDrop<User[]>) {
+  moverCliente(event: CdkDragDrop<User[]>, categoriaDestino: any) {
     if (event.previousContainer === event.container) {
+      // Movimenta dentro da mesma categoria
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
+      const clienteMovido = event.previousContainer.data[event.previousIndex];
+
+      // Verifica se firebaseId está definido
+      if (!clienteMovido.firebaseId) {
+        console.error('Erro: firebaseId indefinido para o cliente movido:', clienteMovido);
+        return;
+      }
+
+      // Move o cliente de uma categoria para outra
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
@@ -53,9 +73,14 @@ export class HomeComponent implements OnInit {
         event.currentIndex
       );
 
-      // Atualiza o estado do usuário ao mudar de categoria
-      const usuarioMovido = event.container.data[event.currentIndex];
-      usuarioMovido.estado = this.categorias.find(cat => cat.lista === event.container.data)?.titulo;
+      // Atualiza o estado do cliente no Firebase Firestore
+      this.usersService.updateUserState(clienteMovido.firebaseId, categoriaDestino.titulo)
+        .then(() => {
+          console.log(`Cliente ${clienteMovido.name} movido para ${categoriaDestino.titulo}`);
+          // Após mover o cliente, atualiza as categorias localmente
+          this.updateCategoriasLocais();
+        })
+        .catch((err) => console.error('Erro ao atualizar estado no Firebase:', err));
     }
   }
 }

@@ -6,21 +6,6 @@
   margin-bottom: 20px;
 }
 
-/* Container flexível para os subcards */
-.subcard-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px; // Espaçamento entre os cards
-  justify-content: space-between; // Garantir que o espaço seja distribuído corretamente
-}
-
-.total {
-  font-size: 14px;
-  font-weight: bold;
-  color: #007bff;
-  margin-left: 10px;
-}
-
 /* Subcards com 50% de largura */
 .subcard {
   background: #f8f9fa;
@@ -29,9 +14,32 @@
   border-radius: 8px;
   flex-grow: 1; // Faz com que os subcards cresçam para ocupar o espaço disponível
   flex-basis: calc(50% - 15px); // 50% de largura menos o espaçamento entre os cards
-  max-width: 400px;
+  max-width: 300px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: grab;
+}
+
+/* Container flexível para os subcards */
+.subcard-container {
+  min-height: 150px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px; // Espaçamento entre os cards
+  justify-content: space-between; // Garantir que o espaço seja distribuído corretamente
+  transition: min-height 0.3s ease-in-out;
+}
+
+.subcard-container.empty {
+  min-height: 150px; /* Aumente a altura quando estiver vazio */
+  background-color: #f0f0f0; /* Cor de fundo opcional para indicar que está vazio */
+  border: 1px dashed #ccc;  /* Opção para dar uma borda para categorias vazias */
+}
+
+.total {
+  font-size: 14px;
+  font-weight: bold;
+  color: #007bff;
+  margin-left: 10px;
 }
 
 /* Efeito ao arrastar */

@@ -23,6 +23,10 @@ export class UsersService {
     return this.dataBaseStore.collection('users').doc(userId).update(user)
   }
 
+  updateUserState(firebaseId: string, novoEstado: string) {
+    return this.dataBaseStore.collection('users').doc(firebaseId).update({ estado: novoEstado });
+  }
+
   deleteUser(userId: string) {
     return this.dataBaseStore.collection('users').doc(userId).delete();
   }

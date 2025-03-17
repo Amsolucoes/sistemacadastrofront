@@ -4,7 +4,7 @@
   <div class="row">
     <!-- LADO ESQUERDO DA TELA -->
     <div class="col-12 col-lg-9">
-      <div *ngFor="let categoria of categorias">
+      <div *ngFor="let categoria of categorias; let i = index">
         <div class="card-info mb-2">
           <h1 class="titulo">
             {{ categoria.titulo }} <span class="total">({{ categoria.lista.length }})</span>
@@ -14,7 +14,8 @@
             [cdkDropListData]="categoria.lista"
             [cdkDropListConnectedTo]="getTitulosCategorias()"
             class="subcard-container"
-            (cdkDropListDropped)="moverCliente($event)"
+            (cdkDropListDropped)="moverCliente($event, categoria)"
+            [id]="'categoria-' + i"
           >
             <div *ngFor="let cliente of categoria.lista" cdkDrag class="subcard">
               <p><strong>Nome:</strong> {{ cliente.name }}</p>
