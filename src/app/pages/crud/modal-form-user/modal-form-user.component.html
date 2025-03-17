@@ -55,6 +55,16 @@
         </mat-select>
       </mat-form-field>
      </div>
+     <div class="col-12 col-md-6 mb-2">
+      <mat-form-field class="w-100">
+        <mat-label>Tipo de Plano</mat-label>
+        <mat-select formControlName="typePlan">
+          @for (tipoPlanos of tipoPlano; track tipoPlanos) {
+            <mat-option [value]="tipoPlanos.descricao">{{tipoPlanos.descricao}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+     </div>
     <!-- Beneficios Select -->
      <div class="col-12 col-md-6 mb-2">
       <mat-form-field class="w-100">

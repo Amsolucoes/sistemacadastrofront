@@ -30,9 +30,87 @@
 }
 
 .subcard-container.empty {
-  min-height: 150px; /* Aumente a altura quando estiver vazio */
-  background-color: #f0f0f0; /* Cor de fundo opcional para indicar que está vazio */
-  border: 1px dashed #ccc;  /* Opção para dar uma borda para categorias vazias */
+  min-height: 150px; /* Altura maior quando vazio */
+  background-color: #f9f9f9; /* Cor de fundo opcional */
+  border: 2px dashed #ccc;  /* Borda pontilhada */
+  border-radius: 12px; /* Cantos arredondados */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #888; /* Cor do texto */
+  font-style: italic;
+}
+
+.subcard .tipo-plano {
+  background-color: #f0f8ff;  /* Altere a cor do fundo */
+  border: 1px solid #ccc;  /* Borda suave */
+  padding: 5px 10px;
+  font-style: italic;  /* Texto em itálico */
+  border-radius: 8px;  /* Bordas arredondadas */
+  font-weight: bold; /* Para destacar o texto */
+}
+
+.comentario-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  padding: 8px;
+  background: transparent;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.comentario-container p {
+  font-size: 14px;
+  color: #007bff;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.comentario-texto {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 60px;
+  resize: none;
+  border: 1px solid rgba(0, 0, 0, 0.2); /* Borda mais sutil */
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 14px;
+  color: #555;
+  background: #f9f9f9;
+  transition: background 0.3s ease, border 0.3s ease;
+}
+
+textarea:focus {
+  border-color: #007bff;
+  outline: none;
+  background: #fff;
+}
+
+.name-container {
+  display: flex;
+  justify-content: space-between; /* Espaça o nome e a lixeira */
+  align-items: center; /* Alinha verticalmente */
+}
+
+.delete-icon {
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px; /* Deixa um espacinho entre o nome e o ícone */
+  transition: opacity 0.3s ease;
+}
+
+.delete-icon:hover {
+  opacity: 0.7;
 }
 
 .total {

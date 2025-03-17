@@ -17,7 +17,7 @@ import { ToastService } from '../../components/toast/toast.component';
 export class CrudComponent {
 
 dataSource: any;
-displayedColumns: string[] = ['name', 'email','cash', 'benefits', 'estado', 'action'];
+displayedColumns: string[] = ['name', 'email','cash', 'benefits', 'estado', 'typePlan', 'action'];
 listUsers: User[] = [];
 
 @ViewChild(MatPaginator) paginator: MatPaginator;

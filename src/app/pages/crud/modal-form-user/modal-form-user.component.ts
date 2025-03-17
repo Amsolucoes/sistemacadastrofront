@@ -41,6 +41,17 @@ export class ModalFormUserComponent {
   },
  ]
 
+ tipoPlano = [
+  {
+    id: 1,
+    descricao: 'Empresarial'
+  },
+  {
+    id: 2,
+    descricao: 'Coletivo por Adesão'
+  }
+ ]
+
  estadoCliente = [
   {
     id: 1,
@@ -82,12 +93,14 @@ export class ModalFormUserComponent {
   buildForm() {
     this.formUser = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3)]],
-      email: [null, [Validators.required, Validators.email]],
+      email: [null, [Validators.email]],
       cash: [null, [Validators.required, Validators.minLength(2)]],
       phone: [null, [Validators.required, Validators.minLength(5)]],
+      typePlan: [''],
       healthPlan: [''],
       dentalPlan: [''],
       estado: [''],
+      comentario: [null, [Validators.maxLength(255)]]
     })
 
     if (this.data && this.data.name) {
@@ -101,9 +114,11 @@ export class ModalFormUserComponent {
       email: this.data.email,
       cash: this.data.cash,
       phone: this.data.phone,
+      typePlan: this.data.typePlan,
       healthPlan: this.data.healthPlan,
       dentalPlan: this.data.dentalPlan,
       estado: this.data.estado,
+      comentario: this.data.comentario,
     })
   }
 

@@ -55,6 +55,11 @@
           <td class="td-table" mat-cell *matCellDef="let user"> {{user.estado}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="typePlan">
+          <th class="th-table" mat-header-cell *matHeaderCellDef mat-sort-header> Tipo de Plano </th>
+          <td class="td-table" mat-cell *matCellDef="let user"> {{user.typePlan}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="action">
           <th class="th-table" mat-header-cell *matHeaderCellDef mat-sort-header></th>
           <td class="td-table" mat-cell *matCellDef="let user">
