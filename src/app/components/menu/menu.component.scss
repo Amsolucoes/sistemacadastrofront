@@ -1,23 +1,27 @@
+/* Menu Desktop */
 .sidemenu {
   width: 210px;
-  height: 100vh;
-  min-height: 100vh;
-  display: block;
-  float: left;
+  height: 100vh; /* Garante que o menu ocupe toda a altura da tela */
   background-color: var(--primary-color);
-  padding: 10px 0px;
+  padding: 10px 0;
   box-shadow: 4px 0px 10px 4px #0a0a0a30;
-  margin-right: 16px;
+  // position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999; /* Garante que o menu fique acima de outros conteúdos */
+  transition: transform 0.3s ease-in-out;
 
-  ul { padding: 0;}
+  ul {
+    padding: 0;
+  }
 
-  .logo{
+  .logo {
     font-size: 20px;
     font-weight: bold;
     margin-left: 4px;
   }
 
-  li{
+  li {
     font-size: 14px;
     font-weight: 500;
     color: #fafafa;
@@ -26,54 +30,92 @@
     align-items: center;
     justify-content: left;
     transition: 0.3s linear all;
+
     mat-icon {
       margin-right: 14px;
       font-size: 22px;
     }
-    &:hover{
+
+    &:hover {
       background: #e6e6e6;
       cursor: pointer;
       color: var(--primary-color);
     }
   }
 
-  .logout{
+  .logout {
     position: absolute;
     bottom: 0;
     width: 210px;
   }
 
-  a{
+  a {
     text-decoration: none;
   }
 }
 
-.menu-toggle {
-  display: none;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 24px;
-  cursor: pointer;
+/* MENU LATERAL NO DESKTOP */
+@media (min-width: 769px) {
+  .sidemenu {
+    // position: fixed;
+    top: 0;
+    left: 0;
+    width: 210px;
+    height: 100vh;
+    z-index: 9999;
+    transform: none; /* Corrige a posição do menu no desktop */
+    display: block;
+    float: left;
+    margin-right: 16px;
+  }
+
+  /* Esconde o botão hambúrguer no desktop */
+  .menu-toggle {
+    display: none;
+  }
 }
 
+/* Menu Mobile */
 @media (max-width: 768px) {
   .sidemenu {
-    position: fixed;
-    left: -210px;
-    top: 0;
-    height: 100vh;
-    transition: transform 0.3s ease-in-out;
+    width: 100%;
+    height: auto;
+    top: -100%; /* Esconde o menu acima da tela */
+    left: 0;
+    transition: top 0.3s ease-in-out;
+    position: fixed; /* Fixar a posição na tela */
+    z-index: 9998; /* Certifique-se de que o menu está abaixo do hambúrguer */
+
+    .logout {
+      position: relative;
+    }
   }
 
   .sidemenu.open {
-    transform: translateX(210px);
+    top: 0; /* Menu aparece no topo quando aberto */
   }
 
   .menu-toggle {
     display: block;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: #6a1b9a; /* Usando a cor primária do sistema (roxo) */
+    border: none;
+    color: white;
+    font-size: 23px;
+    cursor: pointer;
+    z-index: 10000;
+    padding: 8px 14px; /* Aumenta o espaço interno (padding) ao redor do ícone */
+    border-radius: 0px; /* Arredonda as bordas para um efeito mais suave */
+  }
+
+  /* Especificando o comportamento do hambúrguer ao passar o mouse */
+  .menu-toggle:hover {
+    background-color: darken(#6a1b9a, 10%); /* Um roxo mais escuro ao passar o mouse */
+  }
+
+  .menu-toggle.hidden {
+    display: none;
   }
 }
