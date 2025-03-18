@@ -1,15 +1,26 @@
-<button class="menu-toggle" (click)="toggleMenu()">
+<!-- Botão para abrir o menu -->
+<!-- <button class="menu-toggle" (click)="toggleMenu()" [class.hidden]="menuOpen">
   <mat-icon>menu</mat-icon>
-</button>
+</button> -->
 
-<nav class="sidemenu">
+<!-- Menu -->
+<nav class="sidemenu" [class.open]="menuOpen">
   <ul>
     <li routerLink="/home">
       <img src="../../../assets/logo.png" alt="" width="40px">
-      <span class="logo">{{nameSistema}}</span>
+      <span class="logo">{{ nameSistema }}</span>
     </li>
-    <li routerLink="/home"><mat-icon>home</mat-icon>Home </li>
-    <li routerLink="/crud"><mat-icon>person_add</mat-icon> Cadastrar Clientes </li>
-    <li class="logout" routerLink="/login"><mat-icon>logout</mat-icon>Sair </li>
+    <li routerLink="/home" (click)="toggleMenu()">
+      <mat-icon>home</mat-icon> Home
+    </li>
+    <li routerLink="/crud" (click)="toggleMenu()">
+      <mat-icon>person_add</mat-icon> Cadastrar Clientes
+    </li>
+    <li class="logout" routerLink="/login" (click)="toggleMenu()">
+      <mat-icon>logout</mat-icon> Sair
+    </li>
   </ul>
 </nav>
+
+<!-- Botão do hambúrguer -->
+<button class="menu-toggle" (click)="toggleMenu()">☰</button>
