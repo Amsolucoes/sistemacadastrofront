@@ -1,3 +1,29 @@
+/* Adicionando barra de rolagem horizontal para a tabela */
+.table-wrapper {
+  overflow-x: auto; /* Habilita rolagem horizontal quando necessário */
+  -webkit-overflow-scrolling: touch; /* Permite rolagem suave em dispositivos móveis */
+  margin-top: 20px;
+  width: 100%;
+  /* Estilo para garantir que a tabela não ultrapasse a largura da tela */
+  max-width: 100%;
+  position: relative;
+}
+
+/* Tornando a tabela redimensionável horizontalmente */
+table {
+  width: 100%;
+  border-collapse: collapse; /* Evita espaços entre as células */
+  table-layout: fixed; /* Garante que a tabela seja responsiva */
+}
+
+/* Redimensionamento de colunas na tabela */
+th {
+  resize: horizontal; /* Permite redimensionar a coluna na horizontal */
+  overflow: hidden;
+  background-color: var(--gray-light); /* Cor de fundo dos cabeçalhos */
+  cursor: col-resize; /* Altera o cursor para indicar que a coluna pode ser redimensionada */
+}
+
 .titulo {
   font-size: 26px;
   font-weight: 500;
@@ -44,5 +70,15 @@ tr { height: 40px; }
     cursor: pointer;
     color: var(--primary-color);
     transform: rotate(359deg);
+  }
+}
+
+@media (max-width: 768px) {
+  table {
+    overflow-x: auto; /* Rolagem horizontal apenas no celular */
+    -webkit-overflow-scrolling: touch; /* Para um scroll suave em dispositivos iOS */
+    width: 100%;
+    display: block;
+    white-space: nowrap;
   }
 }
