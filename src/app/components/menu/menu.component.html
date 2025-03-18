@@ -1,15 +1,15 @@
+<button class="menu-toggle" (click)="toggleMenu()">
+  <mat-icon>menu</mat-icon>
+</button>
+
 <nav class="sidemenu">
   <ul>
     <li routerLink="/home">
       <img src="../../../assets/logo.png" alt="" width="40px">
       <span class="logo">{{nameSistema}}</span>
     </li>
-    <li routerLink="/home"><mat-icon>home</mat-icon>
-      Home
-    </li>
-    <li routerLink="/crud"><mat-icon>person_add</mat-icon>
-      Cadastrar Clientes
-    </li>
-    <li class="logout" routerLink="/login"><mat-icon>logout</mat-icon>Sair</li>
+    <li routerLink="/home"><mat-icon>home</mat-icon>Home </li>
+    <li routerLink="/crud"><mat-icon>person_add</mat-icon> Cadastrar Clientes </li>
+    <li class="logout" routerLink="/login"><mat-icon>logout</mat-icon>Sair </li>
   </ul>
 </nav>

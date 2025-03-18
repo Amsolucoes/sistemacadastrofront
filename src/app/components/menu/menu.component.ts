@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class MenuComponent {
   nameSistema: string = 'QualiMais Saúde'
+  menuOpen: boolean = false;
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
 }
