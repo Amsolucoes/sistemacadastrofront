@@ -31,6 +31,7 @@ import { ModalViewUserComponent } from './pages/crud/modal-view-user/modal-view-
 import { MatDialogModule } from '@angular/material/dialog';
 import { ModalFormUserComponent } from './pages/crud/modal-form-user/modal-form-user.component';
 import { MatSelectModule } from '@angular/material/select';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { MatSelectModule } from '@angular/material/select';
     NgxMaskPipe,
     DragDropModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule
   ],
   providers: [
     provideNgxMask()
