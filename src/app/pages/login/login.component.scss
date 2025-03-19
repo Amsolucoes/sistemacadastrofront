@@ -63,3 +63,25 @@
   color: var(--primary-color);
   font-size: 10px;
 }
+
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-form {
+  padding-right: 40px; /* Dá espaço para o ícone de olho */
+}
+
+.password-eye {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #767676;
+  font-size: 18px;
+}
+
+.password-eye:hover {
+  color: var(--primary-color);
+}

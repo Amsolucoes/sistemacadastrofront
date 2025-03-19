@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -7,15 +8,35 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  userName: string;
+  email: string = '';
+  password: string = '';
+  errorMessage: string = '';
+  passwordVisible: boolean = false; // Controla a visibilidade da senha
 
-  constructor(private route: Router) {
+
+  constructor(private route: Router, private authService: AuthService) {
 
   }
 
   login() {
-    sessionStorage.setItem('user', this.userName);
+    if (!this.email || !this.password) {
+      this.errorMessage = 'Preencha todos os campos!';
+      return;
+    }
 
-    this.route.navigate(['home'])
+    this.authService.login(this.email, this.password)
+      .then(() => {
+        this.route.navigate(['home']);
+      })
+      .catch(error => {
+        this.errorMessage = 'Erro ao fazer login: ' + (error.message || 'Usuário ou senha incorretos!');
+        console.error(error);
+      });
   }
+
+  // Função para alternar a visibilidade da senha
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
+  }
+
 }
