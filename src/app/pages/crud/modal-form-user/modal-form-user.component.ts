@@ -68,6 +68,10 @@ export class ModalFormUserComponent {
   {
     id: 4,
     descricao: 'Não Convertido'
+  },
+  {
+    id: 5,
+    descricao: 'Finalizado'
   }
  ]
 

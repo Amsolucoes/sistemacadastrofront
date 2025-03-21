@@ -1,13 +1,8 @@
-<!-- Botão para abrir o menu -->
-<!-- <button class="menu-toggle" (click)="toggleMenu()" [class.hidden]="menuOpen">
-  <mat-icon>menu</mat-icon>
-</button> -->
-
 <!-- Menu -->
 <nav class="sidemenu" [class.open]="menuOpen">
   <ul>
     <li routerLink="/home">
-      <img src="../../../assets/logo.png" alt="" width="40px">
+      <!-- <img src="../../../assets/logo.png" alt="" width="40px"> -->
       <span class="logo">{{ nameSistema }}</span>
     </li>
     <li routerLink="/home" (click)="toggleMenu()">

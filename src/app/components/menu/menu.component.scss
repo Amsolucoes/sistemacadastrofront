@@ -2,7 +2,7 @@
 .sidemenu {
   width: 210px;
   height: 100vh; /* Garante que o menu ocupe toda a altura da tela */
-  background-color: var(--primary-color);
+  background-color: var(--calm-blue-color);
   padding: 10px 0;
   box-shadow: 4px 0px 10px 4px #0a0a0a30;
   // position: fixed;
@@ -39,7 +39,7 @@
     &:hover {
       background: #e6e6e6;
       cursor: pointer;
-      color: var(--primary-color);
+      color: var(--gray-color);
     }
   }
 
@@ -100,7 +100,7 @@
     position: fixed;
     top: 0px;
     left: 0px;
-    background-color: #6a1b9a; /* Usando a cor primária do sistema (roxo) */
+    background-color: var(--gray-color); /* Usando a cor primária do sistema (roxo) */
     border: none;
     color: white;
     font-size: 23px;
@@ -112,7 +112,7 @@
 
   /* Especificando o comportamento do hambúrguer ao passar o mouse */
   .menu-toggle:hover {
-    background-color: darken(#6a1b9a, 10%); /* Um roxo mais escuro ao passar o mouse */
+    background-color: var(--gray-color); /* Um roxo mais escuro ao passar o mouse */
   }
 
   .menu-toggle.hidden {
