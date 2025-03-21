@@ -9,14 +9,16 @@
 /* Subcards com 50% de largura */
 .subcard {
   background: #f8f9fa;
-  padding: 10px 15px;
-  border-left: 4px solid #007bff;
+  padding: 8px 12px;
+  border-left: 5px solid #007bff;
   border-radius: 8px;
   flex-grow: 1;
-  flex-basis: calc(50% - 15px); /* 50% de largura menos o espaçamento */
-  max-width: 300px;
+  flex-basis: calc(33.33% - 15px); /* 50% de largura menos o espaçamento */
+  max-width: 200px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: grab;
+  font-size: 13px;
+  height: fit-content;
 }
 
 /* Container flexível para os subcards */
@@ -80,10 +82,10 @@ textarea {
   width: 100%;
   min-height: 60px;
   resize: none;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
   padding: 8px;
-  font-size: 14px;
+  font-size: 12px;
   color: #555;
   background: #f9f9f9;
   transition: background 0.3s ease, border 0.3s ease;
@@ -138,7 +140,7 @@ textarea:focus {
   font-weight: 500;
   padding: 0;
   margin: 0;
-  color: var(--primary-color);
+  color: var(--calm-blue-color);
 }
 
 .subtitulo {
@@ -147,7 +149,19 @@ textarea:focus {
   margin: 0;
   padding: 26px 0px 14px 0px;
   color: var(--gray-color);
-  span { color: var(--primary-color); font-weight: 500;}
+  span { color: var(--calm-blue-color); font-weight: 500;}
+}
+
+.categoria-container {
+  max-height: 100vh; /* Limita a altura do container */
+  overflow-y: auto; /* Adiciona scroll se o conteúdo for maior que 80% da tela */
+  padding-right: 10px; /* Evita que o scroll sobreponha conteúdo */
+}
+
+/* Para garantir que o lado direito também tenha altura fixa */
+.col-lg-3 {
+  max-height: 100vh;
+  overflow-y: auto;
 }
 
 /* Ajuste para telas menores */
@@ -192,12 +206,12 @@ textarea:focus {
 /* Ajustes específicos para telas grandes */
 @media (min-width: 768px) {
   .subcard {
-    flex-basis: 48%; /* Cards ocupam 48% da tela em dispositivos médios */
+    flex-basis: 25%; /* Cards ocupam 48% da tela em dispositivos médios */
   }
 }
 
 @media (min-width: 992px) {
   .subcard {
-    flex-basis: 30%; /* Cards ocupam 30% da tela em telas grandes */
+    flex-basis: 20%; /* Cards ocupam 30% da tela em telas grandes */
   }
 }

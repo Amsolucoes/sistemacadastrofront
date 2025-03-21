@@ -4,7 +4,7 @@
   display: block;
   float: left;
   background-image: url('../../../assets/background-login.png');
-  background-color: var(--primary-color);
+  background-color: var(--calm-blue-color);
   // background-size: 100% auto;
   // background-position: center bottom;
   background-repeat: no-repeat;
@@ -30,7 +30,7 @@
   font-weight: bold;
   text-align: center;
   letter-spacing: 7px;
-  color: var(--primary-color);
+  color: var(--calm-blue-color);
   padding: 0;
   margin-bottom: 6px;
 }
@@ -53,14 +53,14 @@
   transition: 0.3s linear all;
   box-shadow: inset 1px 1px 2px #babecc80, inset -1px -1px 2px #bebebeb0;
   &:focus{
-    border: 1px solid var(--primary-color);
+    border: 1px solid var(--calm-blue-color);
   }
 }
 
 .footer {
   position: absolute;
   bottom: 4px;
-  color: var(--primary-color);
+  color: var(--calm-blue-color);
   font-size: 10px;
 }
 
@@ -83,5 +83,5 @@
 }
 
 .password-eye:hover {
-  color: var(--primary-color);
+  color: var(--calm-blue-color);
 }

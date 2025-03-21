@@ -31,7 +31,8 @@ export class HomeComponent implements OnInit {
           { titulo: 'Novo', lista: response.filter((user: User) => user.estado === 'Novo') },
           { titulo: 'Em Atendimento', lista: response.filter((user: User) => user.estado === 'Em Atendimento') },
           { titulo: 'Convertido', lista: response.filter((user: User) => user.estado === 'Convertido') },
-          { titulo: 'Não Convertido', lista: response.filter((user: User) => user.estado === 'Não Convertido') }
+          { titulo: 'Não Convertido', lista: response.filter((user: User) => user.estado === 'Não Convertido') },
+          { titulo: 'Finalizado', lista: response.filter((user: User) => user.estado === 'Finalizado') }
         ];
       },
       error: (err) => console.log(err)
@@ -49,6 +50,7 @@ export class HomeComponent implements OnInit {
       { titulo: 'Em Atendimento', lista: this.categorias[1].lista },
       { titulo: 'Convertido', lista: this.categorias[2].lista },
       { titulo: 'Não Convertido', lista: this.categorias[3].lista },
+      { titulo: 'Finalizado', lista: this.categorias[4].lista },
     ];
     this.cdRef.detectChanges();
   }

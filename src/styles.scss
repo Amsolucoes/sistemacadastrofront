@@ -8,11 +8,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --primary-color: #7533a8;
   --error-color: #ac2828;
   --gray-color: #747474;
+  --blue-color: #77B1D4;
+  --calm-blue-color: #517891;
 }
 
 c-primary {color: var(--primary-color)}
 c-error {color: var(--error-color)}
 c-gray {color: var(--gray-color)}
+c-blue {color: var(--blue-color)}
+c-calm-blue {color: var(--calm-blue-color)}
 
 .hover:hover { cursor: pointer;}
 

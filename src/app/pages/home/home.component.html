@@ -3,7 +3,7 @@
 <div class="container-fluid pt-3">
   <div class="row">
     <!-- LADO ESQUERDO DA TELA -->
-    <div class="col-12 col-lg-9">
+    <div class="col-12 col-lg-9 categoria-container">
       <div *ngFor="let categoria of categorias; let i = index">
         <div class="card-info mb-2">
           <h1 class="titulo">
@@ -26,7 +26,7 @@
                 </div>
               </div>
               <p><strong>Email:</strong> {{ cliente.email }}</p>
-              <p><strong>Telefone:</strong> {{ cliente.phone }}</p>
+              <p><strong>Telefone:</strong> {{ cliente.phone | mask: '(00) 00000-0000' }}</p>
               <span *ngIf="cliente.typePlan" class="tipo-plano">{{ cliente.typePlan }}</span>
               <div class="comentario-container">
                 <textarea
