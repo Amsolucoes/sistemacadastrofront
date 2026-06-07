@@ -1,2 +1,13 @@
+<!-- Loading screen -->
+<div class="loading-screen" *ngIf="loading">
+  <div class="loading-content">
+    <div class="loading-logo">QualiMais Saúde</div>
+    <div class="loading-spinner">
+      <div class="spinner-ring"></div>
+    </div>
+    <p class="loading-text">Carregando...</p>
+  </div>
+</div>
+
 <app-toast></app-toast>
 <router-outlet><router-outlet />

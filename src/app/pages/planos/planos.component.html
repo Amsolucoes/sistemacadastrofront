@@ -1,0 +1,60 @@
+<app-menu></app-menu>
+
+<div class="container-fluid pt-3">
+
+  <div class="row mt-2">
+    <div class="col-12">
+      <h1 class="titulo">Gerenciar Planos</h1>
+      <h2 class="subtitulo">Adicione, edite ou remova planos de saúde</h2>
+    </div>
+  </div>
+
+  <!-- Adicionar novo plano -->
+  <div class="row mt-2">
+    <div class="col-12 col-md-6 d-flex gap-2 align-items-center">
+      <mat-form-field appearance="outline" class="flex-grow-1">
+        <mat-label>Nome do plano</mat-label>
+        <input matInput [(ngModel)]="novoPlano" placeholder="Ex: Total Enfermaria"
+               (keyup.enter)="adicionar()">
+      </mat-form-field>
+      <app-button textButton="+ adicionar" (click)="adicionar()" style="margin-bottom: 22px;"></app-button>
+    </div>
+  </div>
+
+  <!-- Lista de planos -->
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <mat-card *ngFor="let plano of planos" class="mb-2">
+        <mat-card-content class="d-flex align-items-center justify-content-between pt-2">
+
+          <!-- Modo visualização -->
+          <span *ngIf="editandoId !== plano.firebaseId" style="font-size: 15px;">
+            {{ plano.nome }}
+          </span>
+
+          <!-- Modo edição -->
+          <mat-form-field *ngIf="editandoId === plano.firebaseId" appearance="outline"
+                          class="flex-grow-1 me-2" style="margin-bottom: -20px;">
+            <input matInput [(ngModel)]="editandoNome" (keyup.enter)="salvarEdicao()">
+          </mat-form-field>
+
+          <!-- Botões -->
+          <div class="d-flex gap-1">
+            <ng-container *ngIf="editandoId !== plano.firebaseId">
+              <mat-icon class="icone-acao" (click)="iniciarEdicao(plano)" matTooltip="Editar">edit</mat-icon>
+              <mat-icon class="icone-acao icone-delete" (click)="excluir(plano.firebaseId!)" matTooltip="Excluir">delete</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="editandoId === plano.firebaseId">
+              <mat-icon class="icone-acao icone-ok" (click)="salvarEdicao()" matTooltip="Salvar">check</mat-icon>
+              <mat-icon class="icone-acao" (click)="cancelarEdicao()" matTooltip="Cancelar">close</mat-icon>
+            </ng-container>
+          </div>
+
+        </mat-card-content>
+      </mat-card>
+
+      <p *ngIf="planos.length === 0" style="color: #888;">Nenhum plano cadastrado ainda.</p>
+    </div>
+  </div>
+
+</div>

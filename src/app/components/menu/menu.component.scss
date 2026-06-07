@@ -1,19 +1,16 @@
 /* Menu Desktop */
 .sidemenu {
   width: 210px;
-  height: 100vh; /* Garante que o menu ocupe toda a altura da tela */
+  height: 100vh;
   background-color: var(--calm-blue-color);
   padding: 10px 0;
   box-shadow: 4px 0px 10px 4px #0a0a0a30;
-  // position: fixed;
   top: 0;
   left: 0;
-  z-index: 9999; /* Garante que o menu fique acima de outros conteúdos */
+  z-index: 9999;
   transition: transform 0.3s ease-in-out;
 
-  ul {
-    padding: 0;
-  }
+  ul { padding: 0; }
 
   .logo {
     font-size: 20px;
@@ -31,10 +28,7 @@
     justify-content: left;
     transition: 0.3s linear all;
 
-    mat-icon {
-      margin-right: 14px;
-      font-size: 22px;
-    }
+    mat-icon { margin-right: 14px; font-size: 22px; }
 
     &:hover {
       background: #e6e6e6;
@@ -49,73 +43,59 @@
     width: 210px;
   }
 
-  a {
-    text-decoration: none;
-  }
+  a { text-decoration: none; }
 }
 
-/* MENU LATERAL NO DESKTOP */
+/* MENU DESKTOP */
 @media (min-width: 769px) {
   .sidemenu {
-    // position: fixed;
     top: 0;
     left: 0;
     width: 210px;
     height: 100vh;
     z-index: 9999;
-    transform: none; /* Corrige a posição do menu no desktop */
+    transform: none;
     display: block;
     float: left;
     margin-right: 16px;
   }
 
-  /* Esconde o botão hambúrguer no desktop */
-  .menu-toggle {
-    display: none;
-  }
+  .menu-toggle { display: none; }
 }
 
-/* Menu Mobile */
+/* MENU MOBILE */
 @media (max-width: 768px) {
   .sidemenu {
     width: 100%;
     height: auto;
-    top: -100%; /* Esconde o menu acima da tela */
+    top: -100%;
     left: 0;
     transition: top 0.3s ease-in-out;
-    position: fixed; /* Fixar a posição na tela */
-    z-index: 9998; /* Certifique-se de que o menu está abaixo do hambúrguer */
+    position: fixed;
+    z-index: 9998;
 
-    .logout {
-      position: relative;
-    }
+    .logout { position: relative; }
   }
 
-  .sidemenu.open {
-    top: 0; /* Menu aparece no topo quando aberto */
-  }
+  .sidemenu.open { top: 0; }
 
+  /* Empurra o conteúdo para baixo do botão hamburguer */
   .menu-toggle {
     display: block;
     position: fixed;
     top: 0px;
     left: 0px;
-    background-color: var(--gray-color); /* Usando a cor primária do sistema (roxo) */
+    background-color: var(--calm-blue-color);
     border: none;
     color: white;
     font-size: 23px;
     cursor: pointer;
     z-index: 10000;
-    padding: 8px 14px; /* Aumenta o espaço interno (padding) ao redor do ícone */
-    border-radius: 0px; /* Arredonda as bordas para um efeito mais suave */
+    padding: 8px 14px;
+    border-radius: 0px;
+
+    &:hover { background-color: var(--calm-blue-color); }
   }
 
-  /* Especificando o comportamento do hambúrguer ao passar o mouse */
-  .menu-toggle:hover {
-    background-color: var(--gray-color); /* Um roxo mais escuro ao passar o mouse */
-  }
-
-  .menu-toggle.hidden {
-    display: none;
-  }
+  .menu-toggle.hidden { display: none; }
 }

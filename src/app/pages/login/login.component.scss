@@ -1,28 +1,37 @@
+/* Container principal ocupa toda a tela */
+:host {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
 .area-login-background {
-  height: 100%;
+  height: 100vh;
   width: 55%;
-  display: block;
-  float: left;
+  flex-shrink: 0;
   background-image: url('../../../assets/background-login.png');
   background-color: var(--calm-blue-color);
-  // background-size: 100% auto;
-  // background-position: center bottom;
   background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .area-form {
-  height: 100%;
+  height: 100vh;
   width: 45%;
-  float: left;
+  flex-shrink: 0;
   background: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
+  position: relative;
 }
 
 @media only screen and (max-width: 767px) {
-  .area-form { width: 100%;}
+  .area-login-background { display: none; }
+  .area-form { width: 100%; }
 }
 
 .titulo {
@@ -52,7 +61,7 @@
   margin-bottom: 32px;
   transition: 0.3s linear all;
   box-shadow: inset 1px 1px 2px #babecc80, inset -1px -1px 2px #bebebeb0;
-  &:focus{
+  &:focus {
     border: 1px solid var(--calm-blue-color);
   }
 }
@@ -71,7 +80,7 @@
 }
 
 .input-form {
-  padding-right: 40px; /* Dá espaço para o ícone de olho */
+  padding-right: 40px;
 }
 
 .password-eye {
@@ -80,8 +89,5 @@
   cursor: pointer;
   color: #767676;
   font-size: 18px;
-}
-
-.password-eye:hover {
-  color: var(--calm-blue-color);
+  &:hover { color: var(--calm-blue-color); }
 }

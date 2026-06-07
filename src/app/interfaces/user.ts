@@ -9,10 +9,5 @@ export interface User {
   healthPlan?: string,
   dentalPlan?: string,
   comentario?: string,
-
-  // Adicionar propriedades temporárias
-  tempoRestante?: number;  // Tempo restante para cada cliente
-  tempoMensagem?: string;  // Mensagem de tempo
-  intervalo?: any;         // Para armazenar o intervalo de contagem
-  toastExibido?: boolean; // Adicione esta linha
+  createdAt?: Date;
 }

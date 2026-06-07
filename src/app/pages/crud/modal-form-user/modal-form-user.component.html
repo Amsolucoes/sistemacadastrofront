@@ -71,7 +71,7 @@
         <mat-label><mat-icon>favorite</mat-icon>Plano de Saúde</mat-label>
         <mat-select formControlName="healthPlan">
           @for (plano of planosSaude; track plano) {
-            <mat-option [value]="plano.descricao">{{plano.descricao}}</mat-option>
+            <mat-option [value]="plano.nome">{{plano.nome}}</mat-option>
           }
         </mat-select>
       </mat-form-field>

@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { User } from '../../interfaces/user';
 import { UsersService } from '../../services/users.service';
+import { PlanosService, Plano } from '../../services/planos.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -11,64 +12,149 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class HomeComponent implements OnInit {
   userName: string | null;
-  listUsers: User[] = [];
-  dataSource: any;
+  userPhoto: string = '';
+  localizacao: string = 'Buscando localização...';
   categorias: any[] = [];
+  todosClientes: User[] = [];
 
-  constructor(private usersService: UsersService, private cdRef: ChangeDetectorRef, private snackBar: MatSnackBar) {
-    this.dataSource = this.listUsers;
-  }
+  selectedMonth: number;
+  selectedYear: number;
+  selectedPlano: string = '';
+  planos: Plano[] = [];
+
+  months = [
+    { value: 1,  label: 'Janeiro' },
+    { value: 2,  label: 'Fevereiro' },
+    { value: 3,  label: 'Março' },
+    { value: 4,  label: 'Abril' },
+    { value: 5,  label: 'Maio' },
+    { value: 6,  label: 'Junho' },
+    { value: 7,  label: 'Julho' },
+    { value: 8,  label: 'Agosto' },
+    { value: 9,  label: 'Setembro' },
+    { value: 10, label: 'Outubro' },
+    { value: 11, label: 'Novembro' },
+    { value: 12, label: 'Dezembro' },
+  ];
+  years: number[] = [];
+
+  constructor(
+    private usersService: UsersService,
+    private planosService: PlanosService,
+    private cdRef: ChangeDetectorRef,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     this.userName = sessionStorage.getItem('user');
+    this.userPhoto = sessionStorage.getItem('userPhoto') || '';
+
+    const hoje = new Date();
+    this.selectedMonth = hoje.getMonth() + 1;
+    this.selectedYear  = hoje.getFullYear();
+
+    for (let y = hoje.getFullYear() - 2; y <= hoje.getFullYear(); y++) {
+      this.years.push(y);
+    }
+
+    this.planosService.getPlanos().subscribe(planos => {
+      this.planos = planos;
+    });
+
+    this.getListUsers();
+    this.obterLocalizacao();
+  }
+
+  atualizarFoto() {
+    const url = prompt('Cole a URL da sua foto de perfil:');
+    if (url && url.trim()) {
+      this.userPhoto = url.trim();
+      sessionStorage.setItem('userPhoto', this.userPhoto);
+    }
+  }
+
+  obterLocalizacao() {
+    if (!navigator.geolocation) {
+      this.localizacao = 'Localização não disponível';
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=pt-BR`
+          );
+          const data = await response.json();
+          const cidade = data.address?.city
+                      || data.address?.town
+                      || data.address?.village
+                      || data.address?.county
+                      || '';
+          const estado = data.address?.state_code || data.address?.state || '';
+          this.localizacao = cidade && estado ? `${estado} - ${cidade}` : 'Localização encontrada';
+        } catch {
+          this.localizacao = 'Erro ao obter cidade';
+        }
+        this.cdRef.detectChanges();
+      },
+      () => {
+        this.localizacao = 'Permissão negada';
+        this.cdRef.detectChanges();
+      }
+    );
+  }
+
+  onMonthYearChange() {
     this.getListUsers();
   }
 
+  onPlanoChange() {
+    this.aplicarFiltros();
+  }
+
   getListUsers() {
-    this.usersService.getAllUsers().subscribe({
-      next: (response: any) => {
-        this.categorias = [
-          { titulo: 'Novo', lista: response.filter((user: User) => user.estado === 'Novo') },
-          { titulo: 'Em Atendimento', lista: response.filter((user: User) => user.estado === 'Em Atendimento') },
-          { titulo: 'Convertido', lista: response.filter((user: User) => user.estado === 'Convertido') },
-          { titulo: 'Não Convertido', lista: response.filter((user: User) => user.estado === 'Não Convertido') },
-          { titulo: 'Finalizado', lista: response.filter((user: User) => user.estado === 'Finalizado') }
-        ];
+    this.usersService.getUsersByMonth(this.selectedYear, this.selectedMonth).subscribe({
+      next: (response: User[]) => {
+        this.todosClientes = response;
+        this.aplicarFiltros();
       },
-      error: (err) => console.log(err)
+      error: (err) => console.error(err)
     });
   }
 
-  getTitulosCategorias(): string[] {
-    return this.categorias.map((categoria, index) => 'categoria-' + index);
+  aplicarFiltros() {
+    const filtrados = this.selectedPlano
+      ? this.todosClientes.filter(u => u.healthPlan === this.selectedPlano)
+      : this.todosClientes;
+
+    this.categorias = [
+      { titulo: 'Novo',           lista: filtrados.filter(u => u.estado === 'Novo') },
+      { titulo: 'Em Atendimento', lista: filtrados.filter(u => u.estado === 'Em Atendimento') },
+      { titulo: 'Convertido',     lista: filtrados.filter(u => u.estado === 'Convertido') },
+      { titulo: 'Não Convertido', lista: filtrados.filter(u => u.estado === 'Não Convertido') },
+      { titulo: 'Finalizado',     lista: filtrados.filter(u => u.estado === 'Finalizado') },
+    ];
   }
 
-  // Método para detectar e atualizar as listas de categorias corretamente
+  getTitulosCategorias(): string[] {
+    return this.categorias.map((_, index) => 'categoria-' + index);
+  }
+
   updateCategoriasLocais() {
-    this.categorias = [
-      { titulo: 'Novo', lista: this.categorias[0].lista },
-      { titulo: 'Em Atendimento', lista: this.categorias[1].lista },
-      { titulo: 'Convertido', lista: this.categorias[2].lista },
-      { titulo: 'Não Convertido', lista: this.categorias[3].lista },
-      { titulo: 'Finalizado', lista: this.categorias[4].lista },
-    ];
+    this.categorias = [...this.categorias];
     this.cdRef.detectChanges();
   }
 
   moverCliente(event: CdkDragDrop<User[]>, categoriaDestino: any) {
     if (event.previousContainer === event.container) {
-      // Movimenta dentro da mesma categoria
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       const clienteMovido = event.previousContainer.data[event.previousIndex];
 
-      // Verifica se firebaseId está definido
-      if (!clienteMovido.firebaseId) {
-        console.error('Erro: firebaseId indefinido para o cliente movido:', clienteMovido);
-        return;
-      }
+      if (!clienteMovido.firebaseId) return;
 
-      // Move o cliente de uma categoria para outra
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
@@ -76,92 +162,43 @@ export class HomeComponent implements OnInit {
         event.currentIndex
       );
 
-      // Atualiza o estado do cliente no Firebase Firestore
       this.usersService.updateUserState(clienteMovido.firebaseId, categoriaDestino.titulo)
-        .then(() => {
-          console.log(`Cliente ${clienteMovido.name} movido para ${categoriaDestino.titulo}`);
-          // Após mover o cliente, atualiza as categorias localmente
-          this.updateCategoriasLocais();
-        })
-        .catch((err) => console.error('Erro ao atualizar estado no Firebase:', err));
+        .then(() => this.updateCategoriasLocais())
+        .catch(err => console.error(err));
     }
   }
 
   atualizarComentario(cliente: User, event: Event) {
-    if (!cliente.firebaseId) {
-      console.error('Erro: firebaseId indefinido para o cliente:', cliente);
-      return;
+    if (!cliente.firebaseId) return;
+
+    const comentarioSeguro = cliente.comentario ?? '';
+    const firebaseIdSeguro = cliente.firebaseId as string;
+
+    if (!(cliente as any).toastExibido) {
+      this.snackBar.open('Comentário sendo atualizado...', 'Fechar', { duration: 5000 });
+      (cliente as any).toastExibido = true;
     }
 
-    const comentarioSeguro: string = cliente.comentario ?? ''; // Garante que o comentário será sempre uma string
-    const firebaseIdSeguro: string = cliente.firebaseId as string;
+    if ((cliente as any).intervalo) clearInterval((cliente as any).intervalo);
 
-    // Se o cliente não tiver uma contagem, inicializa
-    if (cliente.tempoRestante === undefined) {
-      cliente.tempoRestante = 5; // 5 segundos
-      cliente.tempoMensagem = `Aguarde... tempo restante: ${cliente.tempoRestante}s`; // Inicializa a mensagem de tempo
-    }
-
-    // Evitar mostrar o toast toda vez que o usuário digita
-    if (!cliente.toastExibido) {
-      // Exibe o Toast apenas uma vez quando o usuário começar a escrever
-      this.snackBar.open('Comentário sendo atualizado...', 'Fechar', {
-        duration: 5000, // Toast vai durar 5 segundos
-      });
-
-      cliente.toastExibido = true; // Marca que o toast já foi exibido
-    }
-
-    // Limpa qualquer intervalo existente antes de iniciar um novo
-    if (cliente.intervalo) {
-      clearInterval(cliente.intervalo); // Limpar o intervalo anterior se existir
-    }
-
-    // Contagem regressiva de 30 segundos para esse cliente
-    cliente.intervalo = setInterval(() => {
-      if (cliente.tempoRestante && cliente.tempoRestante > 0) {
-        cliente.tempoRestante--;
-        cliente.tempoMensagem = `Aguarde... tempo restante: ${cliente.tempoRestante}s`;
-
-        if (cliente.tempoRestante === 0) {
-          clearInterval(cliente.intervalo); // Limpar intervalo após 30 segundos
-          this.snackBar.open('Comentário atualizado!', 'Fechar', {
-            duration: 5000, // Toast vai durar 5 segundos
-          });
-
-          // Atualiza o comentário após o tempo expirar
-          console.log('Tempo esgotado, salvando comentário:', comentarioSeguro); // Verifique se o comentário está correto
-          this.usersService.updateUserComentario(firebaseIdSeguro, comentarioSeguro)
-            .then(() => {
-              console.log(`Comentário atualizado para ${cliente.name}`);
-              console.log(`Comentário salvo: ${comentarioSeguro}`); // Verifique o comentário salvo
-            })
-            .catch((err) => console.error('Erro ao atualizar comentário:', err));
-        }
+    (cliente as any).tempoRestante = 5;
+    (cliente as any).intervalo = setInterval(() => {
+      (cliente as any).tempoRestante--;
+      if ((cliente as any).tempoRestante === 0) {
+        clearInterval((cliente as any).intervalo);
+        this.snackBar.open('Comentário atualizado!', 'Fechar', { duration: 3000 });
+        this.usersService.updateUserComentario(firebaseIdSeguro, comentarioSeguro)
+          .then(() => (cliente as any).toastExibido = false)
+          .catch(err => console.error(err));
       }
-    }, 1000); // 1000ms = 1 segundo
+    }, 1000);
   }
 
   deletar(cliente: User) {
-    if (!cliente.firebaseId) {
-      console.error('Erro: firebaseId indefinido para o cliente:', cliente);
-      return; // Sai da função se firebaseId não for válido
-    }
-
+    if (!cliente.firebaseId) return;
     if (confirm('Tem certeza que deseja excluir este cliente?')) {
-      // Chama o método de exclusão no serviço para excluir o cliente
       this.usersService.deleteUser(cliente.firebaseId)
-        .then(() => {
-          console.log(`Cliente ${cliente.name} excluído com sucesso.`);
-          // Atualiza a lista de usuários ou realiza alguma ação após exclusão
-          this.getListUsers(); // Refaz a listagem dos clientes
-        })
-        .catch((err) => {
-          console.error('Erro ao excluir cliente:', err);
-        });
+        .catch(err => console.error(err));
     }
   }
-
-
-
 }

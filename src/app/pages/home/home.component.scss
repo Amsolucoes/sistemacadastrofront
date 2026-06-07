@@ -1,38 +1,36 @@
+/* KANBAN - colunas lado a lado */
+.kanban-board {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  align-items: flex-start;
+  padding-bottom: 10px;
+}
+
+.kanban-coluna {
+  flex: 1;
+  min-width: 180px;
+}
+
 .card-info {
   background: #fff;
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  height: 100%;
 }
 
-/* Subcards com 50% de largura */
-.subcard {
-  background: #f8f9fa;
-  padding: 8px 12px;
-  border-left: 5px solid #007bff;
-  border-radius: 8px;
-  flex-grow: 1;
-  flex-basis: calc(33.33% - 15px); /* 50% de largura menos o espaçamento */
-  max-width: 200px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  cursor: grab;
-  font-size: 13px;
-  height: fit-content;
-}
-
-/* Container flexível para os subcards */
+/* Cards dentro da coluna em coluna (vertical) */
 .subcard-container {
-  min-height: 150px;
+  min-height: 120px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
   transition: min-height 0.3s ease-in-out;
 }
 
 .subcard-container.empty {
-  min-height: 150px;
+  min-height: 120px;
   background-color: #f9f9f9;
   border: 2px dashed #ccc;
   border-radius: 12px;
@@ -44,38 +42,36 @@
   font-style: italic;
 }
 
+.subcard {
+  background: #f8f9fa;
+  padding: 8px 12px;
+  border-left: 5px solid #007bff;
+  border-radius: 8px;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: grab;
+  font-size: 13px;
+  height: fit-content;
+}
+
 .subcard .tipo-plano {
   background-color: #f0f8ff;
   border: 1px solid #ccc;
-  padding: 5px 10px;
+  padding: 3px 8px;
   font-style: italic;
   border-radius: 8px;
   font-weight: bold;
+  font-size: 12px;
 }
 
 .comentario-container {
   display: flex;
   flex-direction: column;
   margin-top: 10px;
-  padding: 8px;
+  padding: 4px;
   background: transparent;
   border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   position: relative;
-}
-
-.comentario-container p {
-  font-size: 14px;
-  color: #007bff;
-  margin-top: 10px;
-  font-weight: bold;
-}
-
-.comentario-texto {
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-  margin-bottom: 5px;
 }
 
 textarea {
@@ -109,10 +105,7 @@ textarea:focus {
   padding: 0;
   margin-left: 10px;
   transition: opacity 0.3s ease;
-}
-
-.delete-icon:hover {
-  opacity: 0.7;
+  &:hover { opacity: 0.7; }
 }
 
 .total {
@@ -122,7 +115,6 @@ textarea:focus {
   margin-left: 10px;
 }
 
-/* Efeito ao arrastar */
 .cdk-drag-preview {
   opacity: 0.8;
   background: #d1ecf1;
@@ -136,82 +128,120 @@ textarea:focus {
 .titulo {
   display: inline-flex;
   align-items: center;
-  font-size: 26px;
+  font-size: 18px;
   font-weight: 500;
   padding: 0;
-  margin: 0;
+  margin: 0 0 10px 0;
   color: var(--calm-blue-color);
 }
 
-.subtitulo {
-  font-size: 16px;
-  font-weight: 300;
-  margin: 0;
-  padding: 26px 0px 14px 0px;
-  color: var(--gray-color);
-  span { color: var(--calm-blue-color); font-weight: 500;}
-}
-
-.categoria-container {
-  max-height: 100vh; /* Limita a altura do container */
-  overflow-y: auto; /* Adiciona scroll se o conteúdo for maior que 80% da tela */
-  padding-right: 10px; /* Evita que o scroll sobreponha conteúdo */
-}
-
-/* Para garantir que o lado direito também tenha altura fixa */
 .col-lg-3 {
   max-height: 100vh;
   overflow-y: auto;
 }
 
-/* Ajuste para telas menores */
 @media (max-width: 768px) {
-  /* Subcards ocuparão a tela inteira em dispositivos pequenos */
-  .subcard {
-    width: 100%;
-    max-width: none;
-    margin-bottom: 15px;
+  .kanban-board {
+    flex-direction: column;
   }
 
-  /* Contêiner de comentários */
-  .comentario-container {
-    padding: 5px;
+  .kanban-coluna {
+    min-width: 100%;
   }
 
-  /* Menu lateral (esconde em telas pequenas) */
   .col-lg-3 {
     display: none;
   }
+}
 
-  .subcard-container {
-    min-height: 120px; /* Ajuste da altura mínima dos subcards */
+/* Card de perfil lateral */
+.container-perfil {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 8px 8px 8px;
+  text-align: center;
+
+  h4 {
+    margin: 12px 0 2px 0;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--gray-color);
   }
 
-  .name-container {
-    flex-direction: column; /* Torna o layout mais organizado em telas pequenas */
-    align-items: flex-start; /* Alinha os itens à esquerda */
-  }
-
-  .delete-icon {
-    margin-left: 0;
-    margin-top: 5px;
-  }
-
-  .total {
-    font-size: 12px; /* Ajusta o tamanho da fonte para telas menores */
-    margin-left: 0;
+  h5 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--calm-blue-color);
   }
 }
 
-/* Ajustes específicos para telas grandes */
-@media (min-width: 768px) {
-  .subcard {
-    flex-basis: 25%; /* Cards ocupam 48% da tela em dispositivos médios */
+.foto-perfil-container {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  cursor: pointer;
+
+  &:hover .foto-overlay {
+    opacity: 1;
   }
 }
 
-@media (min-width: 992px) {
-  .subcard {
-    flex-basis: 20%; /* Cards ocupam 30% da tela em telas grandes */
+.img-perfil {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--calm-blue-color);
+  object-fit: cover;
+}
+
+.foto-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+
+  mat-icon {
+    color: white;
+    font-size: 22px;
   }
 }
+
+.perfil-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--gray-color);
+  transition: background 0.2s;
+  cursor: default;
+
+  mat-icon {
+    font-size: 18px;
+    color: var(--calm-blue-color);
+  }
+
+  &:hover {
+    background: #f5f5f5;
+  }
+}
+
+.perfil-info-item.link:hover {
+  background: #eaf2f8;
+  cursor: pointer;
+  color: var(--calm-blue-color);
+}
+
+.hr { margin: 8px 0; border-color: #e0e0e0; }

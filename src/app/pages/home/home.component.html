@@ -1,42 +1,75 @@
 <app-menu></app-menu>
 
 <div class="container-fluid pt-3">
+
+  <!-- Filtros -->
+  <div class="row mb-3">
+    <div class="col-12 d-flex align-items-center gap-2 flex-wrap">
+      <mat-form-field appearance="outline" style="width: 160px;">
+        <mat-label>Mês</mat-label>
+        <mat-select [(ngModel)]="selectedMonth" (ngModelChange)="onMonthYearChange()">
+          <mat-option *ngFor="let m of months" [value]="m.value">{{ m.label }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 110px;">
+        <mat-label>Ano</mat-label>
+        <mat-select [(ngModel)]="selectedYear" (ngModelChange)="onMonthYearChange()">
+          <mat-option *ngFor="let y of years" [value]="y">{{ y }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 200px;">
+        <mat-label>Plano</mat-label>
+        <mat-select [(ngModel)]="selectedPlano" (ngModelChange)="onPlanoChange()">
+          <mat-option value="">Todos</mat-option>
+          <mat-option *ngFor="let p of planos" [value]="p.nome">{{ p.nome }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
   <div class="row">
-    <!-- LADO ESQUERDO DA TELA -->
-    <div class="col-12 col-lg-9 categoria-container">
-      <div *ngFor="let categoria of categorias; let i = index">
-        <div class="card-info mb-2">
-          <h1 class="titulo">
-            {{ categoria.titulo }} <span class="total">({{ categoria.lista.length }})</span>
-          </h1>
-          <div
-            cdkDropList
-            [cdkDropListData]="categoria.lista"
-            [cdkDropListConnectedTo]="getTitulosCategorias()"
-            class="subcard-container"
-            [ngClass]="{'empty': categoria.lista.length === 0}"
-            (cdkDropListDropped)="moverCliente($event, categoria)"
-            [id]="'categoria-' + i"
-          >
-            <div *ngFor="let cliente of categoria.lista" cdkDrag class="subcard">
-              <div class="name-container">
-                <p><strong>Nome:</strong> {{ cliente.name }}</p>
-                <div class="icon-container">
-                  <mat-icon (click)="deletar(cliente)" class="delete-icon">delete</mat-icon>
+    <!-- KANBAN -->
+    <div class="col-12 col-lg-9">
+      <div class="kanban-board">
+        <div class="kanban-coluna" *ngFor="let categoria of categorias; let i = index">
+          <div class="card-info">
+            <h1 class="titulo">
+              {{ categoria.titulo }} <span class="total">({{ categoria.lista.length }})</span>
+            </h1>
+            <div
+              cdkDropList
+              [cdkDropListData]="categoria.lista"
+              [cdkDropListConnectedTo]="getTitulosCategorias()"
+              class="subcard-container"
+              [ngClass]="{'empty': categoria.lista.length === 0}"
+              (cdkDropListDropped)="moverCliente($event, categoria)"
+              [id]="'categoria-' + i"
+            >
+              <div *ngFor="let cliente of categoria.lista" cdkDrag class="subcard">
+                <div class="name-container">
+                  <p><strong>Nome:</strong> {{ cliente.name }}</p>
+                  <div class="icon-container">
+                    <mat-icon (click)="deletar(cliente)" class="delete-icon">delete</mat-icon>
+                  </div>
                 </div>
-              </div>
-              <p><strong>Email:</strong> {{ cliente.email }}</p>
-              <p><strong>Telefone:</strong> {{ cliente.phone | mask: '(00) 00000-0000' }}</p>
-              <span *ngIf="cliente.typePlan" class="tipo-plano">{{ cliente.typePlan }}</span>
-              <div class="comentario-container">
-                <textarea
-                [(ngModel)]="cliente.comentario"
-                (input)="atualizarComentario(cliente, $event)"
-                [placeholder]="cliente.comentario ? cliente.comentario : 'Digite seu comentário aqui...'"
-              ></textarea>
-              </div>
-              <div *ngIf="cliente.tempoRestante > 0">
-                <p>{{ cliente.tempoMensagem || 'Aguarde... tempo restante' }}</p>
+                <p><strong>Email:</strong> {{ cliente.email }}</p>
+                <p><strong>Telefone:</strong> {{ cliente.phone | mask: '(00) 00000-0000' }}</p>
+                <p *ngIf="cliente.healthPlan">
+                  <strong>Plano:</strong>
+                  <span class="tipo-plano">{{ cliente.healthPlan }}</span>
+                </p>
+                <p *ngIf="cliente.createdAt">
+                  <strong>Cadastro:</strong> {{ cliente.createdAt.toDate() | date: 'dd/MM/yyyy' }}
+                </p>
+                <div class="comentario-container">
+                  <textarea
+                    [(ngModel)]="cliente.comentario"
+                    (input)="atualizarComentario(cliente, $event)"
+                    [placeholder]="cliente.comentario ? cliente.comentario : 'Digite seu comentário aqui...'"
+                  ></textarea>
+                </div>
               </div>
             </div>
           </div>
@@ -44,20 +77,35 @@
       </div>
     </div>
 
-    <!-- LADO DIREITO DA TELA -->
+    <!-- PERFIL -->
     <div class="col-12 col-lg-3">
       <div class="card-info">
         <div class="container-perfil">
-          <img class="img-perfil" src="" alt="">
-          <h4>Seja bem vindo</h4>
+          <div class="foto-perfil-container" (click)="atualizarFoto()" matTooltip="Clique para alterar a foto">
+            <img class="img-perfil" [src]="userPhoto || 'assets/default-avatar.png'"
+                 (error)="userPhoto=''" alt="foto de perfil">
+            <div class="foto-overlay"><mat-icon>photo_camera</mat-icon></div>
+          </div>
+          <h4>Seja bem-vindo</h4>
           <h5>{{ userName }}</h5>
-          <li><mat-icon>location_on</mat-icon>MS - Campo Grande</li>
         </div>
         <hr class="hr">
-        <li><mat-icon>person</mat-icon>Gerencie usuários</li>
-        <li><mat-icon>loyalty</mat-icon>Adicione benefícios</li>
-        <li><mat-icon>format_list_bulleted</mat-icon>Consulte cadastros</li>
-        <li><mat-icon>delete</mat-icon>Exclua usuários</li>
+        <div class="perfil-info-item">
+          <mat-icon>location_on</mat-icon>
+          <span>{{ localizacao }}</span>
+        </div>
+        <div class="perfil-info-item link" routerLink="/crud">
+          <mat-icon>person_add</mat-icon>
+          <span>Cadastrar Cliente</span>
+        </div>
+        <div class="perfil-info-item link" routerLink="/planos">
+          <mat-icon>medical_services</mat-icon>
+          <span>Gerenciar Planos</span>
+        </div>
+        <div class="perfil-info-item link" routerLink="/crud">
+          <mat-icon>format_list_bulleted</mat-icon>
+          <span>Consultar Cadastros</span>
+        </div>
       </div>
     </div>
   </div>

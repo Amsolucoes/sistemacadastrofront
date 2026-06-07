@@ -9,6 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './pages/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ToastComponent } from './components/toast/toast.component';
+import { PlanosComponent } from './pages/planos/planos.component';
+import { PlanosService } from './services/planos.service';
 
 // Angular Material
 import { MatIconModule } from '@angular/material/icon';
@@ -18,6 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatCardModule } from '@angular/material/card';
 
 //FireBase
 import { environment } from '../environments/environment.development';
@@ -44,7 +47,8 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
     CrudComponent,
     ModalViewUserComponent,
     ModalFormUserComponent,
-    ToastComponent
+    ToastComponent,
+    PlanosComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +71,8 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
     NgxMaskPipe,
     DragDropModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    MatCardModule
   ],
   providers: [
     provideNgxMask()

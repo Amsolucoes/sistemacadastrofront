@@ -1,0 +1,34 @@
+.titulo {
+  font-size: 26px;
+  font-weight: 500;
+  padding: 0;
+  margin: 0 !important;
+  color: var(--calm-blue-color);
+}
+
+.subtitulo {
+  font-size: 16px;
+  font-weight: 300;
+  margin: 0 !important;
+  padding: 2px 0px 14px 0px;
+  color: var(--gray-color);
+}
+
+.icone-acao {
+  color: #767676;
+  margin-right: 6px;
+  cursor: pointer;
+  transition: 0.3s linear all;
+  &:hover {
+    color: var(--calm-blue-color);
+    transform: rotate(359deg);
+  }
+}
+
+.icone-delete:hover {
+  color: #e53935 !important;
+}
+
+.icone-ok:hover {
+  color: #43a047 !important;
+}

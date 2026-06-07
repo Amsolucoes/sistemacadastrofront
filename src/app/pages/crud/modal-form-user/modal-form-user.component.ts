@@ -1,7 +1,8 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UsersService } from '../../../services/users.service';
+import { PlanosService, Plano } from '../../../services/planos.service';
 import { User } from '../../../interfaces/user';
 import { ToastService } from '../../../components/toast/toast.component';
 
@@ -10,102 +11,64 @@ import { ToastService } from '../../../components/toast/toast.component';
   templateUrl: './modal-form-user.component.html',
   styleUrl: './modal-form-user.component.scss'
 })
-export class ModalFormUserComponent {
- planosSaude = [
-  {
-    id: 1,
-    descricao: 'Total Enfermaria'
-  },
-  {
-    id: 2,
-    descricao: 'Total Apartamento'
-  },
-  {
-    id: 3,
-    descricao: 'Parcial Enfermaria'
-  },
-  {
-    id: 4,
-    descricao: 'Parcial Apartamento'
-  },
- ]
+export class ModalFormUserComponent implements OnInit {
 
- planosOdonto = [
-  {
-    id: 1,
-    descricao: 'Incluso'
-  },
-  {
-    id: 2,
-    descricao: 'Não Incluso'
-  },
- ]
+  planosSaude: Plano[] = [];
 
- tipoPlano = [
-  {
-    id: 1,
-    descricao: 'Empresarial'
-  },
-  {
-    id: 2,
-    descricao: 'Coletivo por Adesão'
-  }
- ]
+  planosOdonto = [
+    { id: 1, descricao: 'Incluso' },
+    { id: 2, descricao: 'Não Incluso' },
+  ];
 
- estadoCliente = [
-  {
-    id: 1,
-    descricao: 'Novo'
-  },
-  {
-    id: 2,
-    descricao: 'Em Atendimento'
-  },
-  {
-    id: 3,
-    descricao: 'Convertido'
-  },
-  {
-    id: 4,
-    descricao: 'Não Convertido'
-  },
-  {
-    id: 5,
-    descricao: 'Finalizado'
-  }
- ]
+  tipoPlano = [
+    { id: 1, descricao: 'Empresarial' },
+    { id: 2, descricao: 'Coletivo por Adesão' },
+  ];
 
+  estadoCliente = [
+    { id: 1, descricao: 'Novo' },
+    { id: 2, descricao: 'Em Atendimento' },
+    { id: 3, descricao: 'Convertido' },
+    { id: 4, descricao: 'Não Convertido' },
+    { id: 5, descricao: 'Finalizado' },
+  ];
 
- formUser: FormGroup;
- editUser: boolean = false;
+  formUser: FormGroup;
+  editUser: boolean = false;
 
- constructor(
-  public dialogRef: MatDialogRef<ModalFormUserComponent>,
-  private formBuilder: FormBuilder,
-  private usersService: UsersService,
-  private toast: ToastService,
-  @Inject(MAT_DIALOG_DATA) public data: any,
-){}
+  constructor(
+    public dialogRef: MatDialogRef<ModalFormUserComponent>,
+    private formBuilder: FormBuilder,
+    private usersService: UsersService,
+    private planosService: PlanosService,
+    private toast: ToastService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) {}
 
   ngOnInit() {
     this.buildForm();
     if (this.data && this.data.name) {
       this.editUser = true;
     }
+
+    // Carrega planos do Firestore
+    this.planosService.getPlanos().subscribe(planos => {
+      this.planosSaude = planos;
+    });
   }
 
   buildForm() {
     this.formUser = this.formBuilder.group({
-      name: [null, [Validators.required, Validators.minLength(3)]],
-      email: [null, [Validators.email]],
-      cash: [null, [Validators.required, Validators.minLength(2)]],
-      phone: [null, [Validators.required, Validators.minLength(5)]],
-      typePlan: [''],
-      healthPlan: [''],
-      dentalPlan: [''],
-      estado: [''],
-      comentario: [null, [Validators.maxLength(255)]]
-    })
+      name:      [null, [Validators.required, Validators.minLength(3)]],
+      email:     [null, [Validators.email]],
+      cash:      [null, [Validators.required, Validators.minLength(2)]],
+      phone:     [null, [Validators.required, Validators.minLength(5)]],
+      typePlan:  [''],
+      healthPlan:[''],
+      dentalPlan:[''],
+      estado:    [''],
+      comentario:[null, [Validators.maxLength(255)]]
+    });
 
     if (this.data && this.data.name) {
       this.fillForm();
@@ -114,42 +77,37 @@ export class ModalFormUserComponent {
 
   fillForm() {
     this.formUser.patchValue({
-      name: this.data.name,
-      email: this.data.email,
-      cash: this.data.cash,
-      phone: this.data.phone,
-      typePlan: this.data.typePlan,
+      name:       this.data.name,
+      email:      this.data.email,
+      cash:       this.data.cash,
+      phone:      this.data.phone,
+      typePlan:   this.data.typePlan,
       healthPlan: this.data.healthPlan,
       dentalPlan: this.data.dentalPlan,
-      estado: this.data.estado,
+      estado:     this.data.estado,
       comentario: this.data.comentario,
-    })
+    });
   }
 
   saveUser() {
     const objUserForm: User = this.formUser.getRawValue();
 
     if (this.data && this.data.name) {
-      this.usersService.update(this.data.firebaseId, objUserForm).then(
-        (response: any) => {
-           // Substituindo o alert pelo Toast
-           this.toast.show('Cliente editado com sucesso');
-           this.closeModal();
-        }).catch(err => {
-          // Substituindo o alert pelo Toast
-          this.toast.show('Houve um erro ao editar o cliente', 'error');
-          console.error(err);
-        });
+      this.usersService.update(this.data.firebaseId, objUserForm).then(() => {
+        this.toast.show('Cliente editado com sucesso');
+        this.closeModal();
+      }).catch(err => {
+        this.toast.show('Houve um erro ao editar o cliente', 'error');
+        console.error(err);
+      });
     } else {
-      this.usersService.addUser(objUserForm).then(
-        (response: any) => {
-          // Substituindo o alert pelo Toast
-          this.toast.show('Cliente Salvo com sucesso');
-          this.closeModal();
-        }).catch(err => {
-          this.toast.show('Houve um erro ao salvar o cliente', 'error');
-          console.error(err);
-        });
+      this.usersService.addUser(objUserForm).then(() => {
+        this.toast.show('Cliente Salvo com sucesso');
+        this.closeModal();
+      }).catch(err => {
+        this.toast.show('Houve um erro ao salvar o cliente', 'error');
+        console.error(err);
+      });
     }
   }
 
